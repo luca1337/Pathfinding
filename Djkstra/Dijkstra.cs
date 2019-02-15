@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Djkstra
+namespace Pathfinding
 {
     public static class Dijkstra
     {

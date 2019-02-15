@@ -1,11 +1,12 @@
 ﻿using Aiv.Fast2D;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Djkstra
+namespace Pathfinding
 {
     public class Map
     {
@@ -13,37 +14,32 @@ namespace Djkstra
 
         private Node[] mapNodes;
 
-        public List<int> Grid;
-        public int Columns;
-        public int Rows;
-
-        Random random = new Random();
+        public Level CurrentLevel { get; set; }
 
         private float padding = 0.0f;
 
-        public Map( List<int> grid, int columns, int rows )
+        public Map( Level level )
         {
+            CurrentLevel = level;
             gridCells = new List<Sprite>();
-            mapNodes = new Node [ columns * rows ];
-            this.Grid = grid;
-            this.Columns = columns;
-            this.Rows = rows;
+            mapNodes = new Node [ level.Columns * level.Rows ];
 
-            for ( int i = 0; i < columns * rows; i++ )
+            for ( int i = 0; i < level.Columns * level.Rows; i++ )
             {
                 //add our grid sprite and set the position
                 gridCells.Add(new Sprite(1, 1));
-                gridCells [ i ].position = new OpenTK.Vector2(( i % Columns ) * ( gridCells [ i ].scale.X + padding ), ( i / Columns ) * ( gridCells [ i ].scale.Y + padding ));
+                gridCells [ i ].position = new Vector2(( i % level.Columns ) * ( gridCells [ i ].scale.X + padding ), ( i / level.Columns ) * ( gridCells [ i ].scale.Y + padding ));
             }
 
             // Generate map nodes with it's size
-            for ( int y = 0; y < rows; y++ )
+            for ( int y = 0; y < level.Rows; y++ )
             {
-                for ( int x = 0; x < columns; x++ )
+                for ( int x = 0; x < level.Columns; x++ )
                 {
-                    int index = (y * columns) + x;
+                    int index = (y * level.Columns) + x;
 
-                    mapNodes [ index ] = new Node(Grid [ index ], new OpenTK.Vector2( x * 1.0f, y * 1.0f));
+                    // the cost is set to zero initially
+                    mapNodes [ index ] = new Node(level.Cells[index], new OpenTK.Vector2( x * 1.0f, y * 1.0f));
                 }
             }
 
@@ -52,11 +48,11 @@ namespace Djkstra
 
         private void GenerateNeighborNode()
         {
-            for ( int y = 0; y < Rows - 1; y++ )
+            for ( int y = 0; y < CurrentLevel.Rows - 1; y++ )
             {
-                for ( int x = 0; x < Columns; x++ )
+                for ( int x = 0; x < CurrentLevel.Columns; x++ )
                 {
-                    int index = (y * Columns) + x;
+                    int index = (y * CurrentLevel.Columns) + x;
 
                     // Top
                     Node topNode = GetNode(x, y - 1);
@@ -93,12 +89,12 @@ namespace Djkstra
 
         public Node GetNode(int x, int y)
         {
-            if ( x < 0 || x > Columns )
+            if ( x < 0 || x > CurrentLevel.Columns)
                 return null;
-            if ( y < 0 || y > Rows )
+            if ( y < 0 || y > CurrentLevel.Rows)
                 return null;
 
-            int index = (y * Columns) + x;
+            int index = (y * CurrentLevel.Columns) + x;
 
             return mapNodes [ index ];
         }
@@ -114,7 +110,6 @@ namespace Djkstra
             {
                 mapNodes [ i ]?.PrintNeighbors();
             }
-
         }
     }
 }

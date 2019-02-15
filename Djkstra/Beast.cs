@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using OpenTK;
 using Aiv.Fast2D;
 
-namespace Djkstra
+namespace Pathfinding
 {
-    public class Beast
+    public class Beast : Bestiary
     {
         private Sprite sprite;
 
@@ -21,18 +21,24 @@ namespace Djkstra
             sprite = new Sprite(1, 1);
             this.Position = Position;
 
-            path = Dijkstra.CompuePath(map, Position, Goal);
+            path = AStar.ComputePath(map, this.Position, Goal);
         }
 
-        public void Move( float deltaTime)
+        public void Move( float deltaTime )
         {
+            for (int i = 0; i < path.Count; i++)
+            {
+                Vector2 targetPos = path[0].Position;
+
+            }
+
             if(path.Count > 0)
             {
                 Vector2 targetPos = path[0].Position;
                 if ( targetPos != this.Position )
                 {
                     Vector2 direction = (targetPos - this.Position).Normalized();
-                    this.Position += direction * 0.5f * deltaTime;
+                    this.Position += direction * 1f * deltaTime;
                 }
 
                 float distance = (targetPos - this.Position).Length;
@@ -53,5 +59,6 @@ namespace Djkstra
         {
             sprite.DrawSolidColor(1.0f, 1.0f, 1.0f);
         }
+
     }
 }

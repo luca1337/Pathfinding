@@ -48,22 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Levels\level1.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="AStar.cs" />
     <Compile Include="Beast.cs" />
+    <Compile Include="Bestiary.cs" />
     <Compile Include="Dijkstra.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Frontier.cs" />
+    <Compile Include="IPathfind.cs" />
+    <Compile Include="LevelManager.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Config\App.config" />
-    <None Include="Config\OpenTK.dll.config" />
-    <None Include="Config\packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

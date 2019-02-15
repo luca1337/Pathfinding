@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using Aiv.Fast2D;
 
-namespace Djkstra
+namespace Pathfinding
 {
     public class Node
     {
